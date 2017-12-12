@@ -1,0 +1,13 @@
+{
+	"development": {
+		"PORT": 3005,
+    "host": "localhost",
+    "user": "root",
+    "password": "root",
+    "DB_port": 8889,
+    "database": "wohngeld",
+		"socketPath": "/Applications/MAMP/tmp/mysql/mysql.sock",
+		"NODE_ENV": "development"
+
+		}
+}
