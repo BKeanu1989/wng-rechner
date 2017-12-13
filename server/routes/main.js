@@ -3,6 +3,7 @@
 var express = require('express');
 var router = express.Router();
 
+const axios = require('axios');
 const connection = require('../config/db_config');
 
 
@@ -23,9 +24,13 @@ router.get('/', (req,res) => {
   //
   // connection.end();
 
-  res.render('index', {
-    bodyClass: 'homepage'
-  });
+  // res.render('index', {
+  //   bodyClass: 'homepage'
+  // });
+
+    res.render('index', {
+      bodyClass: 'homepage'
+    });
 });
 
 module.exports = router;

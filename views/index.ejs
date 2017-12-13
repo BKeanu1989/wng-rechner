@@ -1,3 +1,33 @@
 <%-include('partials/header') %>
-test
+<form class="wohnGeld" action="index.html" method="post">
+  <input type="number" name="miete" value="395" placeholder="Miete">
+  <input type="number" name="einkommen" value="835" placeholder="Gesamteinkommen">
+  <input type="number" name="a" value="0.05761" placeholder="A">
+  <input type="number" name="b" value="0.0005761" placeholder="B">
+  <input type="number" name="c" value="0.00006431" placeholder="C">
+  <input type="submit" name="submit" value="Senden">
+</form>
+<script type="text/javascript">
+  $form = document.querySelector('form');
+  $form.querySelector('input[type="submit"]').addEventListener('click', function(event) {
+    event.preventDefault();
+    $miete = parseInt($form.querySelector('input[name="miete"]').value);
+    $einkommen = parseInt($form.querySelector('input[name="einkommen"]').value);
+    $a = parseFloat($form.querySelector('input[name="a"]').value);
+    $b = parseFloat($form.querySelector('input[name="b"]').value);
+    $c = parseFloat($form.querySelector('input[name="c"]').value);
+    console.log($miete, $einkommen, $a, $b, $c);
+    var data = {"data": [{"miete": $miete, "a": $a, "b":$b, "c": $c, "einkommen": $einkommen} ]}
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(this);
+        console.log(this.responseText);
+      }
+    };
+    xhttp.open("POST", "/api");
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.send(JSON.stringify(data));
+  });
+</script>
 <%-include('partials/footer') %>

@@ -37,6 +37,18 @@ app.use('/intern/css', express.static(path.join(__dirname, '..', 'public', 'css'
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({extended: true}));
 
+// whitelist domains for api use
+app.use(function(req,res,next) {
+  var whiteListedDomains = ["http://localhost:3000", "https://studierenplus.de", "https://www.easyantrag.de/"];
+  var origin = req.headers.origin;
+  if (whiteListedDomains.indexOf(origin) > -1) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, application/json');
+  next();
+});
+
 //debug purposes
 app.use((req, res, next) => {
     // console.log("req body:", req.body);
@@ -46,26 +58,6 @@ app.use((req, res, next) => {
 app.use('/', mainRoutes);
 app.use('/api', apiRoutes);
 
-// app.get('/', (req, res) => {
-//     var p1 = Promise.resolve(University.distinct("City"));
-//     var p2 = Promise.resolve(University.distinct("Study_program"));
-//
-//     Promise.all([p1, p2]).then(values => {
-//         var distinctCities = values[0].sort();
-//         var distinctStudies = values[1].sort();
-//         res.render('index', {
-//             title: 'Homepage',
-//             page: "homepage",
-//             services: "/#service-container",
-//             advantages: "/#advantages-container",
-//             about_us: "/#about-us-container",
-//             contact: "/kontakt",
-//             blog: "/#blog-container",
-//             distinctCities,
-//             distinctStudies
-//         });
-//     });
-// });
 
 // deactivate in development
 // Handle 404
@@ -84,8 +76,6 @@ if (env !== 'development') {
         })
     });
 }
-
-
 
 server.listen(port, () => {
     console.log(`Server up at ${port}`);
